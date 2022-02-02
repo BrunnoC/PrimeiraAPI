@@ -32,3 +32,5 @@ C:\Projetos\PrimeiraAPI\MimicAPI\MimicAPI\obj\Debug\netcoreapp2.2\MimicAPI.dll
 C:\Projetos\PrimeiraAPI\MimicAPI\MimicAPI\obj\Debug\netcoreapp2.2\MimicAPI.pdb
 C:\Projetos\PrimeiraAPI\MimicAPI\MimicAPI\obj\Debug\netcoreapp2.2\MimicAPI.genruntimeconfig.cache
 C:\Projetos\PrimeiraAPI\MimicAPI\MimicAPI\obj\Debug\netcoreapp2.2\MimicAPI.csproj.CopyComplete
+C:\Projetos\PrimeiraAPI\MimicAPI\MimicAPI\obj\Debug\netcoreapp2.2\MimicAPI.Properties.Resources.resources
+C:\Projetos\PrimeiraAPI\MimicAPI\MimicAPI\obj\Debug\netcoreapp2.2\MimicAPI.csproj.GenerateResource.cache
