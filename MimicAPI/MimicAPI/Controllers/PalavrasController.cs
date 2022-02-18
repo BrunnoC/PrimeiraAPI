@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MimicAPI.Database;
 using MimicAPI.Models;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 
@@ -19,13 +20,40 @@ namespace MimicAPI.Controllers
             _banco = banco;
         }
 
-        //APP
+        //APP -- /api/palavras?data=2019-05-30
         [Route("")]
         [HttpGet]
-        public ActionResult ObterTodas()
+        public ActionResult ObterTodas([FromQuery]Helpers.PalavraUrlQuery query)
         {
 
-            return Ok(_banco.Palavras);
+            var item = _banco.Palavras.AsQueryable();
+            if (query.Data.HasValue)
+            {
+                item = item.Where(x => x.Criado > query.Data.Value || x.Atualizado > query.Data.Value);
+            }
+            if (query.PagNumero.HasValue)
+            {
+                var quantidadeTotalRegistros = item.Count();
+                item = item.Skip((query.PagNumero.Value - 1) * query.PagRegistros.Value).Take(query.PagRegistros.Value);
+
+                var paginacao = new Helpers.Paginacao();
+                paginacao.NumeroPagina = query.PagNumero.Value;
+                paginacao.RegistrosPorPagina = query.PagRegistros.Value;
+                paginacao.TotalRegistros = quantidadeTotalRegistros;
+                paginacao.TotalPaginas = (int)Math.Ceiling((double)quantidadeTotalRegistros / (double)query.PagRegistros.Value);
+
+
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginacao));
+                if (query.PagNumero > paginacao.TotalPaginas)
+                {
+                    return NotFound();
+                }
+
+            
+            }
+
+
+            return Ok(item);
         }
 
         //WEB
