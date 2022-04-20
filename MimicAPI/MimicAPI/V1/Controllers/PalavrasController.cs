@@ -2,17 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MimicAPI.Helpers;
-using MimicAPI.Models;
-using MimicAPI.Models.DTO;
-using MimicAPI.Repositories.Contracts;
+using MimicAPI.V1.Models;
+using MimicAPI.V1.Models.DTO;
+using MimicAPI.V1.Repositories.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
 
-namespace MimicAPI.Controllers
+namespace MimicAPI.V1.Controllers
 {
-    [Route("api/palavras")]
-
+    [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    //[Route("api/[controller]")]
+    [ApiVersion("1.0",Deprecated = true)]
+    [ApiVersion("1.1")]
 
     public class PalavrasController : ControllerBase
     {
@@ -24,7 +27,8 @@ namespace MimicAPI.Controllers
             _repository = repository;
             _mapper = mapper;
         }
-
+        [MapToApiVersion("1.0")]
+        [MapToApiVersion("1.1")]
         //APP -- /api/palavras?data=2019-05-30
         [HttpGet("",Name = "ObterTodas")]
         public ActionResult ObterTodas([FromQuery]Helpers.PalavraUrlQuery query)
@@ -78,7 +82,8 @@ namespace MimicAPI.Controllers
         }
 
         //WEB
-
+        [MapToApiVersion("1.0")]
+        [MapToApiVersion("1.1")]
         [HttpGet("{id}",Name = "ObterPalavra")]
         public ActionResult Obter(int id)
         {
@@ -94,7 +99,8 @@ namespace MimicAPI.Controllers
 
             return Ok(palavraDTO);
         }
-
+        [MapToApiVersion("1.0")]
+        [MapToApiVersion("1.1")]
         [Route("")]
         [HttpPost]
         public ActionResult Cadastrar([FromBody]Palavra palavra)
@@ -119,7 +125,8 @@ namespace MimicAPI.Controllers
 
             return Created($"/api/palavras/{palavra.Id}", palavraDTO);
         }
-
+        [MapToApiVersion("1.0")]
+        [MapToApiVersion("1.1")]
         [Route("{id}")]
         [HttpPut]
         public ActionResult Atualizar(int id, [FromBody]Palavra palavra)
@@ -149,7 +156,7 @@ namespace MimicAPI.Controllers
             return Ok();
         }
 
-
+        [MapToApiVersion("1.1")]
         [HttpDelete("{id}", Name = "ExcluirPalavra")]
         public ActionResult Deletar(int id)
         {

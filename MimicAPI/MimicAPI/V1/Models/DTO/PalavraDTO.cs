@@ -1,14 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace MimicAPI.Models
+namespace MimicAPI.V1.Models.DTO
 {
-    public class Palavra
+    public class PalavraDTO : BaseDTO
     {
         public int Id { get; set; }
-        [Required]
         public string Nome { get; set; }
-        [Required]
         public int Pontuacao { get; set; }
         public bool Ativo { get; set; }
         public DateTime Criado { get; set; }

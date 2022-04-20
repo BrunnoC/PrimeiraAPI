@@ -11,10 +11,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MimicAPI.Repositories;
-using MimicAPI.Repositories.Contracts;
+using MimicAPI.V1.Repositories;
+using MimicAPI.V1.Repositories.Contracts;
 using AutoMapper;
 using MimicAPI.Helpers;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace MimicAPI
 {
@@ -39,6 +40,15 @@ namespace MimicAPI
             IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);
             #endregion
+
+            services.AddApiVersioning(cfg =>
+            {
+                cfg.AssumeDefaultVersionWhenUnspecified = true;
+
+                //cfg.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                cfg.ReportApiVersions = true;
+                cfg.DefaultApiVersion = new ApiVersion(1, 0);
+            });
 
             services.AddDbContext<MimicContext>(opt => {
                 opt.UseSqlite("Data Source=Database\\Mimic.db");
